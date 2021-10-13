@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Password Generator</title>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <h1>Password Generator</h1>
+        </div>
+        <div class="form">
+                <div class="form-item">
+                    <label for="">Enter Length of password</label>
+                    <input type="text" name="length" id="length">
+                </div>
+                <button type="submit" id="genpassbtn"> Generate</button>
+        </div>
+        <div class="password">
+            <!-- <h2>your password</h2>
+            <h3>password</h3> -->
+        </div>
+    </div>
+    <script>
+        document.getElementById('genpassbtn').addEventListener('click',function(){
+            var password = document.getElementsByClassName("password")[0]
+            var length = document.getElementById("length").value
+            console.log("length : " + length)
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST","{{ url_for('passwordGenerateRequest')}}")
+            xhr.setRequestHeader("Content-Type", "application/json")
+            xhr.onload = function(){
+                
+                console.log("Checking status")
+                if (this.status == 200){
+                    console.log("Status: ok")
+                    const rjson = JSON.parse(this.responseText)
+                    if (rjson.password){
+                        console.log("Password : " + rjson.password)
+                        password.innerHTML = "<h2>Your Password</h2><h3>"+ rjson.password +"</h3>"
+
+                    }else{
+                        console.log("Please Enter only Numbers")
+                    }
+
+                }
+            }
+            console.log("Sending Request")
+            data = {
+                'length': length
+            }
+
+            xhr.send(JSON.stringify(data))
+
+        })
+    </script>
+</body>
+</html>

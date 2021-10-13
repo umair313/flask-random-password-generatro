@@ -26,9 +26,6 @@ h3 {
     padding: 4px;
 
 }
-.form{
-    width: 30%;
-}
 .form-item{
     display: flex;
     flex-direction: column;

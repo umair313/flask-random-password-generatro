@@ -20,42 +20,31 @@
                 <button type="submit" id="genpassbtn"> Generate</button>
         </div>
         <div class="password">
-            <!-- <h2>your password</h2>
-            <h3>password</h3> -->
+            <h2></h2>
+            <h3></h3>
         </div>
     </div>
     <script>
         document.getElementById('genpassbtn').addEventListener('click',function(){
             var password = document.getElementsByClassName("password")[0]
             var length = document.getElementById("length").value
-            console.log("length : " + length)
-
             const xhr = new XMLHttpRequest();
             xhr.open("POST","{{ url_for('passwordGenerateRequest')}}")
             xhr.setRequestHeader("Content-Type", "application/json")
             xhr.onload = function(){
-                
-                console.log("Checking status")
                 if (this.status == 200){
-                    console.log("Status: ok")
                     const rjson = JSON.parse(this.responseText)
                     if (rjson.password){
-                        console.log("Password : " + rjson.password)
                         password.innerHTML = "<h2>Your Password</h2><h3>"+ rjson.password +"</h3>"
-
                     }else{
-                        console.log("Please Enter only Numbers")
+                        // some thing missing
                     }
-
                 }
             }
-            console.log("Sending Request")
             data = {
                 'length': length
             }
-
             xhr.send(JSON.stringify(data))
-
         })
     </script>
 </body>

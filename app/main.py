@@ -4,7 +4,7 @@ import string
 import random
 
 app = Flask(__name__)
-app.debug = True
+
 
 @app.route('/')
 def home():
@@ -32,6 +32,3 @@ def passwordGenerateRequest():
                 'password' : False,
             }
         return json.dumps(data)
-        
-
-        

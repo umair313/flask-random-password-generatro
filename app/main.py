@@ -29,7 +29,6 @@ def passwordGenerateRequest():
             data = {
                 "password" : password
             }
-            app.logger.info(f"req_password_length: {pasword_length}, gen_pass_len:{len(password)}, password : {password}")
         except:
             data = {
                 'password' : False,

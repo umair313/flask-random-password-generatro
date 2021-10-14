@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
+    app.logger.info(f'request /')
     return render_template("index.html")
 
 
@@ -16,8 +17,6 @@ def generatePassword(pass_len):
     for r in ['\t','\n','\r',' ']:
         printable_chars = printable_chars.replace(r,'')
     random_chars = random.sample(printable_chars, pass_len)
-    if len(random_chars) == 0:
-        generatePassword(pass_len)
     return ''.join(random_chars)
 
 
@@ -26,9 +25,11 @@ def passwordGenerateRequest():
     if request.method == "POST":
         try:
             pasword_length = int(request.json['length'])
+            password = generatePassword(pasword_length)
             data = {
-                "password" : generatePassword(pasword_length)
+                "password" : password
             }
+            app.logger.info(f"req_password_length: {pasword_length}, gen_pass_len:{len(password)}, password : {password}")
         except:
             data = {
                 'password' : False,
